@@ -6,15 +6,22 @@ function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
-      await signup({ name, email, password });
+      const res = await signup({ name, email, password });
+      alert(res.message || "Signup successful!");
       navigate("/login");
     } catch (err) {
-      alert("Signup failed");
+      setError(err.message || "Signup failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -22,6 +29,7 @@ function Signup() {
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow p-4" style={{ width: "350px" }}>
         <h3 className="text-center mb-4">Signup</h3>
+        {error && <div className="alert alert-danger">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <input
@@ -53,8 +61,12 @@ function Signup() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-success w-100">
-            Signup
+          <button
+            type="submit"
+            className="btn btn-success w-100"
+            disabled={loading}
+          >
+            {loading ? "Signing up..." : "Signup"}
           </button>
         </form>
         <p className="text-center mt-3">
@@ -73,6 +85,3 @@ function Signup() {
 }
 
 export default Signup;
-
-
-

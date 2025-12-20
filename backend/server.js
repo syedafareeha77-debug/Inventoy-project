@@ -10,30 +10,26 @@ app.use(express.json());
 // ------------------------
 // MongoDB connection
 // ------------------------
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected");
-  } catch (err) {
-    console.log("MongoDB connection error:", err);
-  }
-};
-
-connectDB();
+mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/inventory", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected"))
+.catch((err) => console.log("MongoDB connection error:", err));
 
 // ------------------------
 // Routes Import
 // ------------------------
-const userRoutes = require("./routes/user");
-const productRoutes = require("./routes/product");
-const stockRoutes = require("./routes/stock"); // Stock route added
+const userRoutes = require("./routes/users");
+const productRoutes = require("./routes/products");
+const stockRoutes = require("./routes/stock");
 
 // ------------------------
 // Routes Setup
 // ------------------------
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/stock", stockRoutes); // Stock route setup
+app.use("/api/stock", stockRoutes);
 
 // ------------------------
 // Test Route
@@ -47,4 +43,3 @@ app.get("/", (req, res) => {
 // ------------------------
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-

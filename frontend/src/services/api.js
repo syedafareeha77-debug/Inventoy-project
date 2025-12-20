@@ -4,54 +4,65 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
-// ------------------------
-// Auth APIs
-// ------------------------
-export const signup = (userData) => API.post("/users/signup", userData);
-export const login = (userData) => API.post("/users/login", userData);
+// Attach token automatically
+API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-// ------------------------
-// Users (Protected)
-// ------------------------
-export const getUsers = () => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  return API.get("/users", { headers: { Authorization: `Bearer ${token}` } });
+// --- Auth ---
+export const signup = async (userData) => {
+  try {
+    const res = await API.post("/users/signup", userData);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Signup failed" };
+  }
 };
 
-// ------------------------
-// Products (Protected)
-// ------------------------
-export const getProducts = () => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  return API.get("/products", { headers: { Authorization: `Bearer ${token}` } });
+export const login = async (userData) => {
+  try {
+    const res = await API.post("/users/login", userData);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Login failed" };
+  }
 };
 
-export const addProduct = (product) => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  return API.post("/products", product, { headers: { Authorization: `Bearer ${token}` } });
+// --- Users (Protected) ---
+export const getUsers = async () => {
+  try {
+    const res = await API.get("/users");
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { message: "Failed to fetch users" };
+  }
 };
 
-export const deleteProduct = (id) => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  return API.delete(`/products/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+// --- Products (Protected) ---
+export const getProducts = async () => {
+  const res = await API.get("/products");
+  return res.data;
+};
+export const addProduct = async (product) => {
+  const res = await API.post("/products", product);
+  return res.data;
+};
+export const deleteProduct = async (id) => {
+  const res = await API.delete(`/products/${id}`);
+  return res.data;
 };
 
-// ------------------------
-// Stock (Protected)
-// ------------------------
-export const getStock = () => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  return API.get("/stock", { headers: { Authorization: `Bearer ${token}` } });
+// --- Stock (Protected) ---
+export const getStock = async () => {
+  const res = await API.get("/stock");
+  return res.data;
 };
-
-export const addStock = (stock) => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  return API.post("/stock", stock, { headers: { Authorization: `Bearer ${token}` } });
+export const addStock = async (stock) => {
+  const res = await API.post("/stock", stock);
+  return res.data;
 };
-

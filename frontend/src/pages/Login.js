@@ -5,16 +5,22 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
       const res = await login({ email, password });
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.token); // token save
       navigate("/dashboard");
     } catch (err) {
-      alert("Login failed");
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -22,6 +28,7 @@ function Login() {
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow p-4" style={{ width: "350px" }}>
         <h3 className="text-center mb-4">Login</h3>
+        {error && <div className="alert alert-danger">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <input
@@ -43,8 +50,12 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
-            Login
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="text-center mt-3">
@@ -63,6 +74,3 @@ function Login() {
 }
 
 export default Login;
-
-
-
