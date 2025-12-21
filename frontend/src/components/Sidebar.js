@@ -1,5 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaTachometerAlt, FaBoxOpen, FaThList, FaTruck, FaLayerGroup, FaChartLine, FaFileAlt, FaUsers, FaCog, FaSignOutAlt, FaWarehouse } from "react-icons/fa";
+import { 
+  FaTachometerAlt, FaBoxOpen, FaThList, FaTruck, FaLayerGroup, 
+  FaChartLine, FaFileAlt, FaUsers, FaCog, FaSignOutAlt, FaWarehouse 
+} from "react-icons/fa";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -22,7 +25,10 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="w-72 min-h-screen bg-[#151936] text-gray-300 flex flex-col justify-between p-6">
+    <aside
+      className="w-72 min-h-screen text-gray-300 flex flex-col justify-between p-6"
+      style={{ background: "linear-gradient(135deg, #243cac 0%, #6a21a8 50%, #5129a6 100%)" }}
+    >
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold mb-10 flex items-center">
@@ -36,9 +42,10 @@ const Sidebar = () => {
               key={link.name}
               to={link.path}
               className={({ isActive }) =>
-                `px-4 py-3 text-2xl font-semibold flex items-center transition-colors no-underline ${isActive
-                  ? "bg-[#544de8] text-white rounded-lg"
-                  : "text-gray-300 hover:bg-[#3d356c] hover:text-white hover:rounded-lg"
+                `px-4 py-3 text-2xl font-semibold flex items-center transition-colors no-underline ${
+                  isActive
+                    ? "bg-[#544de8] text-white rounded-lg"
+                    : "text-gray-300 hover:bg-[#3d356c] hover:text-white hover:rounded-lg"
                 }`
               }
             >
