@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlus, FiSearch, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
 
 const Suppliers = () => {
@@ -15,15 +15,11 @@ const Suppliers = () => {
     address: "",
   });
 
-  /* 🔹 Load suppliers on refresh */
   useEffect(() => {
     const saved = localStorage.getItem("suppliers");
-    if (saved) {
-      setSuppliers(JSON.parse(saved));
-    }
+    if (saved) setSuppliers(JSON.parse(saved));
   }, []);
 
-  /* 🔹 Save suppliers */
   useEffect(() => {
     localStorage.setItem("suppliers", JSON.stringify(suppliers));
   }, [suppliers]);
@@ -32,7 +28,6 @@ const Suppliers = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  /* 🔹 Add / Update supplier (NO compulsory fields) */
   const handleAddOrUpdate = () => {
     if (editingIndex !== null) {
       const updated = [...suppliers];
@@ -42,14 +37,7 @@ const Suppliers = () => {
     } else {
       setSuppliers([...suppliers, formData]);
     }
-
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-    });
-
+    setFormData({ name: "", email: "", phone: "", address: "" });
     setIsModalOpen(false);
   };
 
@@ -60,7 +48,9 @@ const Suppliers = () => {
   };
 
   const handleDelete = (index) => {
-    setSuppliers(suppliers.filter((_, i) => i !== index));
+    if (window.confirm("Are you sure you want to delete this supplier?")) {
+      setSuppliers(suppliers.filter((_, i) => i !== index));
+    }
   };
 
   const filteredSuppliers = suppliers.filter((s) =>
@@ -68,139 +58,122 @@ const Suppliers = () => {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen text-white font-['Plus_Jakarta_Sans']">
       <Sidebar />
 
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-8 overflow-y-auto">
         {/* ================= HEADER ================= */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-4">Supplier Management</h1>
-
-          <div className="flex justify-between items-center">
-            <input
-              type="text"
-              placeholder="Search suppliers..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-1/3 px-4 py-2 border rounded-md text-lg"
-            />
-
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-[#4f46e5] text-white text-lg rounded hover:bg-indigo-600"
-            >
-              <FiPlus size={20} /> Add Supplier
-            </button>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2 text-white">Supplier Management</h1>
+          <p className="text-emerald-400/80">Keep track of your vendors and their contact details.</p>
         </div>
 
-        {/* ================= TABLE ================= */}
-        <div className="bg-white rounded shadow overflow-hidden">
-          <table className="min-w-full text-left">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="px-6 py-4 text-lg">ID</th>
-                <th className="px-6 py-4 text-lg">Name</th>
-                <th className="px-6 py-4 text-lg">Email</th>
-                <th className="px-6 py-4 text-lg">Phone</th>
-                <th className="px-6 py-4 text-lg">Address</th>
-                <th className="px-6 py-4 text-lg">Actions</th>
-              </tr>
-            </thead>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+          {/* Search Bar */}
+          <div className="relative w-full md:w-1/3">
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              placeholder="Search by name..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-all backdrop-blur-md"
+            />
+          </div>
 
-            <tbody>
-              {filteredSuppliers.length === 0 ? (
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-emerald-500 text-[#1a2223] font-bold rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 w-full md:w-auto justify-center"
+          >
+            <FiPlus size={22} /> Add New Supplier
+          </button>
+        </div>
+
+        {/* ================= TABLE SECTION ================= */}
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left">
+              <thead className="bg-white/10 text-emerald-400 uppercase text-xs tracking-wider font-bold">
                 <tr>
-                  <td
-                    colSpan={6}
-                    className="text-center py-6 text-gray-500 text-lg"
-                  >
-                    No suppliers found.
-                  </td>
+                  <th className="px-6 py-5">Supplier Name</th>
+                  <th className="px-6 py-5">Contact Info</th>
+                  <th className="px-6 py-5">Address</th>
+                  <th className="px-6 py-5 text-center">Actions</th>
                 </tr>
-              ) : (
-                filteredSuppliers.map((sup, idx) => (
-                  <tr key={idx} className="border-t hover:bg-gray-50">
-                    <td className="px-6 py-4">{idx + 1}</td>
-                    <td className="px-6 py-4">{sup.name}</td>
-                    <td className="px-6 py-4">{sup.email}</td>
-                    <td className="px-6 py-4">{sup.phone}</td>
-                    <td className="px-6 py-4">{sup.address}</td>
-                    <td className="px-6 py-4 flex gap-3">
-                      <button
-                        onClick={() => handleEdit(idx)}
-                        className="flex items-center gap-2 px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500"
-                      >
-                        <FiEdit size={20} /> Edit
-                      </button>
+              </thead>
 
-                      <button
-                        onClick={() => handleDelete(idx)}
-                        className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                      >
-                        <FiTrash2 size={20} /> Delete
-                      </button>
+              <tbody className="divide-y divide-white/5">
+                {filteredSuppliers.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center py-12 text-gray-400 text-lg italic">
+                      No suppliers found.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  filteredSuppliers.map((sup, idx) => (
+                    <tr key={idx} className="hover:bg-white/5 transition-colors group">
+                      <td className="px-6 py-4 font-bold text-white text-lg">
+                        {sup.name}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col gap-1">
+                          <span className="flex items-center gap-2 text-gray-300 text-sm">
+                            <FiMail className="text-emerald-400" /> {sup.email || "N/A"}
+                          </span>
+                          <span className="flex items-center gap-2 text-gray-300 text-sm">
+                            <FiPhone className="text-emerald-400" /> {sup.phone || "N/A"}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-400 text-sm italic max-w-xs truncate">
+                         {sup.address || "No address provided"}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex justify-center gap-3">
+                          <button onClick={() => handleEdit(idx)} className="p-2 bg-yellow-500/10 text-yellow-500 rounded-lg hover:bg-yellow-500 hover:text-white transition-all">
+                            <FiEdit size={18} />
+                          </button>
+                          <button onClick={() => handleDelete(idx)} className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                            <FiTrash2 size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* ================= MODAL ================= */}
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white w-96 p-6 rounded-lg">
-              <h2 className="text-xl font-bold mb-4">
-                {editingIndex !== null ? "Edit Supplier" : "Add Supplier"}
+          <div className="fixed inset-0 bg-[#1a2223]/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-[#1a2223] border border-white/10 w-full max-w-md p-8 rounded-2xl shadow-2xl">
+              <h2 className="text-2xl font-bold mb-6 text-emerald-400">
+                {editingIndex !== null ? "Edit Supplier" : "Add New Supplier"}
               </h2>
 
-              <input
-                name="name"
-                placeholder="Supplier Name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full mb-2 px-3 py-2 border rounded"
-              />
-              <input
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full mb-2 px-3 py-2 border rounded"
-              />
-              <input
-                name="phone"
-                placeholder="Phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full mb-2 px-3 py-2 border rounded"
-              />
-              <input
-                name="address"
-                placeholder="Address"
-                value={formData.address}
-                onChange={handleChange}
-                className="w-full mb-4 px-3 py-2 border rounded"
-              />
+              <div className="space-y-4">
+                <input name="name" placeholder="Full Name" value={formData.name} onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" />
+                
+                <input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" />
 
-              <div className="flex justify-end gap-2">
-                <button
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setEditingIndex(null);
-                  }}
-                  className="px-4 py-2 border rounded"
-                >
+                <input name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" />
+
+                <textarea name="address" placeholder="Physical Address" value={formData.address} onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" rows={3}></textarea>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-8">
+                <button onClick={() => { setIsModalOpen(false); setEditingIndex(null); }} className="px-6 py-3 text-gray-400 hover:text-white transition-colors">
                   Cancel
                 </button>
-
-                <button
-                  onClick={handleAddOrUpdate}
-                  className="px-4 py-2 bg-[#4f46e5] text-white rounded"
-                >
-                  {editingIndex !== null ? "Update Supplier" : "Add Supplier"}
+                <button onClick={handleAddOrUpdate} className="px-6 py-3 bg-emerald-500 text-[#1a2223] font-bold rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20">
+                  {editingIndex !== null ? "Save Changes" : "Confirm Add"}
                 </button>
               </div>
             </div>

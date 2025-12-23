@@ -1,5 +1,13 @@
 import Sidebar from "../components/Sidebar";
-import { FaBoxOpen, FaLayerGroup, FaExclamationTriangle, FaChartLine, FaMobileAlt, FaLaptop, FaHeadphones } from "react-icons/fa";
+import {
+  FaBoxOpen,
+  FaLayerGroup,
+  FaExclamationTriangle,
+  FaChartLine,
+  FaMobileAlt,
+  FaLaptop,
+  FaHeadphones,
+} from "react-icons/fa";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,9 +18,17 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Dashboard = () => {
   const lowStockItems = [
@@ -28,9 +44,9 @@ const Dashboard = () => {
   ];
 
   const topSellingProducts = [
-    { name: "Smartphone", icon: <FaMobileAlt className="inline mr-2" />, price: "$500" },
-    { name: "Laptop", icon: <FaLaptop className="inline mr-2" />, price: "$1200" },
-    { name: "Headphones", icon: <FaHeadphones className="inline mr-2" />, price: "$150" },
+    { name: "Smartphone", icon: <FaMobileAlt />, price: "$500" },
+    { name: "Laptop", icon: <FaLaptop />, price: "$1200" },
+    { name: "Headphones", icon: <FaHeadphones />, price: "$150" },
   ];
 
   const salesData = {
@@ -39,122 +55,142 @@ const Dashboard = () => {
       {
         label: "Sales",
         data: [12, 19, 8, 17, 14, 22],
-        borderColor: "#544de8",
-        backgroundColor: "rgba(84,77,232,0.2)",
+        borderColor: "#10b981", // Emerald 500
+        backgroundColor: "rgba(16, 185, 129, 0.2)",
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: "#10b981",
       },
     ],
   };
 
   const salesOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'Sales Overview', font: { size: 20 } },
+      title: {
+        display: true,
+        text: "Monthly Sales Trend",
+        color: "#ffffff",
+        font: { size: 16, family: "'Plus Jakarta Sans'" },
+      },
     },
     scales: {
-      y: { beginAtZero: true },
+      x: {
+        ticks: { color: "#9ca3af" },
+        grid: { display: false },
+      },
+      y: {
+        ticks: { color: "#9ca3af" },
+        grid: { color: "rgba(255, 255, 255, 0.1)" },
+        beginAtZero: true,
+      },
     },
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen font-['Plus_Jakarta_Sans']">
+      {/* Sidebar - Already contains its own background */}
       <Sidebar />
-      <main className="flex-1 bg-gray-100 p-6">
+
+      <main className="flex-1 p-8 text-white overflow-y-auto">
         {/* Header */}
-        <h1 className="text-[20px] font-bold mb-2">Dashboard</h1>
-        <p className="text-[18px] mb-6 text-gray-600">Welcome to Inventory Management System</p>
-
-        {/* Top Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-[18px]">
-          <div className="p-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow-lg flex items-center gap-4 transform transition-transform hover:scale-105">
-            <div className="p-3 bg-white rounded-full flex items-center justify-center">
-              <FaBoxOpen className="text-[18px] text-blue-600" />
-            </div>
-            <div>
-              <p className="text-[18px] text-gray-200">Total Products</p>
-              <p className="text-[18px] font-bold">150</p>
-            </div>
-          </div>
-
-          <div className="p-4 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-xl shadow-lg flex items-center gap-4 transform transition-transform hover:scale-105">
-            <div className="p-3 bg-white rounded-full flex items-center justify-center">
-              <FaLayerGroup className="text-[18px] text-green-600" />
-            </div>
-            <div>
-              <p className="text-[18px] text-gray-200">Total Stock</p>
-              <p className="text-[18px] font-bold">320</p>
-            </div>
-          </div>
-
-          <div className="p-4 bg-gradient-to-r from-red-400 to-red-600 text-white rounded-xl shadow-lg flex items-center gap-4 transform transition-transform hover:scale-105">
-            <div className="p-3 bg-white rounded-full flex items-center justify-center">
-              <FaExclamationTriangle className="text-[18px] text-red-600" />
-            </div>
-            <div>
-              <p className="text-[18px] text-gray-200">Low Stock Alerts</p>
-              <p className="text-[18px] font-bold">10</p>
-            </div>
-          </div>
-
-          <div className="p-4 bg-gradient-to-r from-purple-400 to-purple-600 text-white rounded-xl shadow-lg flex items-center gap-4 transform transition-transform hover:scale-105">
-            <div className="p-3 bg-white rounded-full flex items-center justify-center">
-              <FaChartLine className="text-[18px] text-purple-600" />
-            </div>
-            <div>
-              <p className="text-[18px] text-gray-200">Total Sales</p>
-              <p className="text-[18px] font-bold">75</p>
-            </div>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
+          <p className="text-emerald-400/80 text-lg">
+            Welcome back! Here is what's happening today.
+          </p>
         </div>
 
-        {/* Charts & Low Stock Table */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Sales Overview Chart */}
-          <div className="p-4 bg-white rounded-lg shadow h-80">
+        {/* Top Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {[
+            { title: "Total Products", value: "150", icon: <FaBoxOpen />, color: "text-blue-400" },
+            { title: "Total Stock", value: "320", icon: <FaLayerGroup />, color: "text-emerald-400" },
+            { title: "Low Stock", value: "10", icon: <FaExclamationTriangle />, color: "text-red-400" },
+            { title: "Total Sales", value: "75", icon: <FaChartLine />, color: "text-purple-400" },
+          ].map((card, i) => (
+            <div
+              key={i}
+              className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 shadow-xl"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className={`p-3 rounded-xl bg-white/5 ${card.color} text-2xl`}>
+                  {card.icon}
+                </div>
+                <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">
+                  +12.5%
+                </span>
+              </div>
+              <div>
+                <p className="text-gray-400 font-medium">{card.title}</p>
+                <p className="text-3xl font-bold mt-1">{card.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Middle Section: Chart & Low Stock */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Sales Chart */}
+          <div className="lg:col-span-2 p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 h-96 shadow-xl">
             <Line data={salesData} options={salesOptions} />
           </div>
 
           {/* Low Stock Items */}
-          <div className="p-4 bg-white rounded-lg shadow h-80 flex flex-col">
-            <p className="text-[20px] font-semibold mb-4">Low Stock Items</p>
-            <ul className="flex-1 overflow-y-auto text-[18px]">
+          <div className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 h-96 flex flex-col shadow-xl">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-500"></span>
+              Low Stock Items
+            </h3>
+
+            <div className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
               {lowStockItems.map((item, index) => (
-                <li key={index} className="flex justify-between items-center py-2 border-b border-gray-200">
-                  <span>{item.name}</span>
-                  <span className="font-semibold">{item.quantity}</span>
-                </li>
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                  <span className="text-gray-200 font-medium">{item.name}</span>
+                  <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-400 font-bold text-sm">
+                    {item.quantity} left
+                  </span>
+                </div>
               ))}
-            </ul>
-            <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition font-semibold text-[18px]">Restock All</button>
+            </div>
+
+            <button className="mt-6 w-full py-3 rounded-xl bg-emerald-500 text-[#1a2223] font-bold hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20">
+              Restock All
+            </button>
           </div>
         </div>
 
-        {/* Footer Section */}
+        {/* Bottom Section: Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Sales */}
-          <div className="p-4 bg-white rounded-lg shadow h-60 text-[18px]">
-            <p className="text-[20px] font-semibold mb-3">Recent Sales</p>
-            <ul>
+          <div className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
+            <h3 className="text-xl font-bold mb-4 text-emerald-400">Recent Sales</h3>
+            <div className="space-y-3">
               {recentSales.map((sale, index) => (
-                <li key={index} className="flex justify-between py-1 border-b border-gray-200">
-                  <span>{sale.product}</span>
-                  <span className="font-semibold">{sale.price}</span>
-                </li>
+                <div key={index} className="flex justify-between items-center p-3 rounded-lg border-b border-white/5 hover:bg-white/5 transition">
+                  <span className="text-gray-300">{sale.product}</span>
+                  <span className="font-bold text-emerald-400">{sale.price}</span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Top Selling Products */}
-          <div className="p-4 bg-white rounded-lg shadow h-60 text-[18px]">
-            <p className="text-[20px] font-semibold mb-3">Top Selling Products</p>
-            <ul>
+          {/* Top Selling */}
+          <div className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
+            <h3 className="text-xl font-bold mb-4 text-blue-400">Top Selling Products</h3>
+            <div className="space-y-3">
               {topSellingProducts.map((product, index) => (
-                <li key={index} className="flex items-center justify-between py-1 border-b border-gray-200">
-                  <span className="flex items-center">{product.icon}{product.name}</span>
-                  <span className="font-semibold">{product.price}</span>
-                </li>
+                <div key={index} className="flex justify-between items-center p-3 rounded-lg border-b border-white/5 hover:bg-white/5 transition">
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <span className="text-blue-400 bg-blue-400/10 p-2 rounded-lg">{product.icon}</span>
+                    <span className="font-medium">{product.name}</span>
+                  </div>
+                  <span className="font-bold text-white">{product.price}</span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </main>
