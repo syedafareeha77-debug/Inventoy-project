@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { FiAlertTriangle, FiSearch, FiCheckCircle, FiBox } from "react-icons/fi";
+import { FiSearch, FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
 
 const Stock = () => {
   const [stockItems, setStockItems] = useState([]);
   const [search, setSearch] = useState("");
 
-  /* 🔹 Load stock from localStorage */
+  /* Load stock from products */
   useEffect(() => {
     const savedProducts = localStorage.getItem("products");
     if (savedProducts) {
@@ -15,6 +15,7 @@ const Stock = () => {
         id: index + 1,
         name: p.name || "N/A",
         category: p.category || "N/A",
+        supplier: p.supplier || "N/A",
         stock: parseInt(p.stock) || 0,
       }));
       setStockItems(stockData);
@@ -30,82 +31,103 @@ const Stock = () => {
       <Sidebar />
 
       <main className="flex-1 p-8 overflow-y-auto">
-        {/* ================= HEADER ================= */}
+        {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Stock Inventory</h1>
-          <p className="text-emerald-400/80">Real-time monitoring of your product availability.</p>
+          <h1 className="text-3xl font-bold mb-2 text-white">
+            Stock Inventory
+          </h1>
+          <p className="text-emerald-500">
+            Monitor available stock levels for all products.
+          </p>
         </div>
 
-        {/* Search & Stats Bar */}
+        {/* SEARCH */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
           <div className="relative w-full md:w-1/3">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search product stock..."
+              placeholder="Search stock..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-all backdrop-blur-md"
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500 text-white"
             />
           </div>
-          
-          <div className="flex gap-4 w-full md:w-auto">
-            <div className="px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-400 text-sm">
-              <FiAlertTriangle /> Low Stock Threshold: 5
-            </div>
+
+          <div className="px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm flex items-center gap-2">
+            <FiAlertTriangle /> Low stock below 5 units
           </div>
         </div>
 
-        {/* ================= TABLE SECTION ================= */}
+        {/* TABLE (PRODUCTS STYLE) */}
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left">
-              <thead className="bg-white/10 text-emerald-400 uppercase text-xs tracking-wider font-bold">
+              <thead className="bg-white/10 text-white uppercase text-sm tracking-wider">
                 <tr>
-                  <th className="px-6 py-5">ID</th>
-                  <th className="px-6 py-5">Product Details</th>
-                  <th className="px-6 py-5 text-center">Current Stock</th>
-                  <th className="px-6 py-5 text-center">Status</th>
+                  <th className="px-6 py-4 font-bold">ID</th>
+                  <th className="px-6 py-4 font-bold">Product Name</th>
+                  <th className="px-6 py-4 font-bold">Category</th>
+                  <th className="px-6 py-4 font-bold">Supplier</th>
+                  <th className="px-6 py-4 font-bold text-center">Stock</th>
+                  <th className="px-6 py-4 font-bold text-center">Status</th>
                 </tr>
               </thead>
 
               <tbody className="divide-y divide-white/5">
                 {filteredStock.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="text-center py-12 text-gray-400 text-lg italic">
-                      No stock data available.
+                    <td
+                      colSpan={6}
+                      className="text-center py-12 text-gray-400 italic"
+                    >
+                      No stock data found.
                     </td>
                   </tr>
                 ) : (
                   filteredStock.map((item) => (
-                    <tr key={item.id} className="hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-4 text-gray-500 font-mono">#{item.id}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-col">
-                          <span className="font-bold text-white text-lg">{item.name}</span>
-                          <span className="text-xs text-emerald-500/60 uppercase tracking-widest">{item.category}</span>
-                        </div>
+                    <tr
+                      key={item.id}
+                      className="hover:bg-white/5 transition-colors"
+                    >
+                      <td className="px-6 py-4 text-gray-400">
+                        {item.id}
                       </td>
+
+                      <td className="px-6 py-4 font-semibold text-white">
+                        {item.name}
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                          {item.category}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 text-white/80">
+                        {item.supplier}
+                      </td>
+
                       <td className="px-6 py-4 text-center">
-                        <div className="flex flex-col items-center">
-                           <span className={`text-2xl font-black ${item.stock <= 5 ? 'text-red-400' : 'text-white'}`}>
-                             {item.stock}
-                           </span>
-                           <span className="text-[10px] text-gray-500 uppercase">Units</span>
-                        </div>
+                        <span
+                          className={`font-bold ${
+                            item.stock < 5 ? "text-red-400" : "text-white"
+                          }`}
+                        >
+                          {item.stock}
+                        </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-center">
-                          {item.stock <= 5 ? (
-                            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 text-xs font-bold animate-pulse">
-                              <FiAlertTriangle /> LOW STOCK
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-xs font-bold">
-                              <FiCheckCircle /> STABLE
-                            </span>
-                          )}
-                        </div>
+
+                      <td className="px-6 py-4 text-center">
+                        {item.stock < 5 ? (
+                          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold">
+                            <FiAlertTriangle /> LOW
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-bold">
+                            <FiCheckCircle /> OK
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))
@@ -113,16 +135,6 @@ const Stock = () => {
               </tbody>
             </table>
           </div>
-        </div>
-
-        {/* ================= FOOTER NOTE ================= */}
-        <div className="mt-6 flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-xl w-fit">
-          <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-400">
-            <FiBox size={20} />
-          </div>
-          <p className="text-sm text-gray-400">
-            <span className="text-emerald-400 font-bold">Inventory Sync:</span> All stock levels are automatically updated based on your <span className="underline italic">Product Management</span> settings.
-          </p>
         </div>
       </main>
     </div>

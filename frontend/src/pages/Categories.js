@@ -97,7 +97,7 @@ const Categories = () => {
 
               <button
                 onClick={handleAddOrUpdateCategory}
-                className="w-full px-4 py-4 bg-emerald-500 text-[#1a2223] font-bold rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+                className="w-full px-3 py-3 bg-emerald-500 text-[#1a2223] font-bold rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
               >
                 <FiPlus size={20} />
                 {editingIndex !== null ? "Update Category" : "Add Category"}
@@ -129,7 +129,7 @@ const Categories = () => {
 
             <div className="overflow-x-auto">
               <table className="min-w-full text-left">
-                <thead className="bg-white/10 text-emerald-400 uppercase text-xs tracking-wider">
+                <thead className="bg-white/10 text-white-400 uppercase text-sm tracking-wider">
                   <tr>
                     <th className="px-6 py-4 font-bold">ID</th>
                     <th className="px-6 py-4 font-bold">Name</th>

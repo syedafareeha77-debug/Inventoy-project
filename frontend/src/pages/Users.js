@@ -102,7 +102,7 @@ const Users = () => {
                 </div>
 
                 <button onClick={handleAddUser}
-                  className="w-full bg-emerald-500 text-[#1a2223] font-bold py-4 rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 mt-4">
+                  className="w-full bg-emerald-500 text-[#1a2223] font-bold py-3 rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 mt-4">
                   Create Account
                 </button>
               </div>

@@ -97,7 +97,7 @@ const Products = () => {
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left">
-              <thead className="bg-white/10 text-emerald-400 uppercase text-sm tracking-wider">
+              <thead className="bg-white/10 text-white-400 uppercase text-sm tracking-wider">
                 <tr>
                   <th className="px-6 py-4 font-bold">ID</th>
                   <th className="px-6 py-4 font-bold">Name</th>

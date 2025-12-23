@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FiEdit, FiTrash2, FiPlus, FiSearch, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlus, FiSearch, FiMail, FiPhone } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
 
 const Suppliers = () => {
@@ -62,9 +62,9 @@ const Suppliers = () => {
       <Sidebar />
 
       <main className="flex-1 p-8 overflow-y-auto">
-        {/* ================= HEADER ================= */}
+        {/* ================= HEADER SECTION (Products Style) ================= */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-white">Supplier Management</h1>
+          <h1 className="text-3xl font-bold mb-2">Supplier Management</h1>
           <p className="text-emerald-400/80">Keep track of your vendors and their contact details.</p>
         </div>
 
@@ -77,7 +77,7 @@ const Suppliers = () => {
               placeholder="Search by name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-all backdrop-blur-md"
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-all backdrop-blur-md text-white"
             />
           </div>
 
@@ -89,16 +89,16 @@ const Suppliers = () => {
           </button>
         </div>
 
-        {/* ================= TABLE SECTION ================= */}
+        {/* ================= TABLE SECTION (Products Style) ================= */}
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left">
-              <thead className="bg-white/10 text-emerald-400 uppercase text-xs tracking-wider font-bold">
+              <thead className="bg-white/10 text-white uppercase text-sm tracking-wider">
                 <tr>
-                  <th className="px-6 py-5">Supplier Name</th>
-                  <th className="px-6 py-5">Contact Info</th>
-                  <th className="px-6 py-5">Address</th>
-                  <th className="px-6 py-5 text-center">Actions</th>
+                  <th className="px-6 py-4 font-bold">Supplier Name</th>
+                  <th className="px-6 py-4 font-bold">Contact Info</th>
+                  <th className="px-6 py-4 font-bold">Address</th>
+                  <th className="px-6 py-4 font-bold text-center">Actions</th>
                 </tr>
               </thead>
 
@@ -112,16 +112,16 @@ const Suppliers = () => {
                 ) : (
                   filteredSuppliers.map((sup, idx) => (
                     <tr key={idx} className="hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-4 font-bold text-white text-lg">
+                      <td className="px-6 py-4 font-semibold text-white">
                         {sup.name}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-col gap-1">
                           <span className="flex items-center gap-2 text-gray-300 text-sm">
-                            <FiMail className="text-emerald-400" /> {sup.email || "N/A"}
+                            <FiMail className="text-emerald-400" size={14} /> {sup.email || "N/A"}
                           </span>
                           <span className="flex items-center gap-2 text-gray-300 text-sm">
-                            <FiPhone className="text-emerald-400" /> {sup.phone || "N/A"}
+                            <FiPhone className="text-emerald-400" size={14} /> {sup.phone || "N/A"}
                           </span>
                         </div>
                       </td>
@@ -129,7 +129,7 @@ const Suppliers = () => {
                          {sup.address || "No address provided"}
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex justify-center gap-3">
+                        <div className="flex justify-center gap-2">
                           <button onClick={() => handleEdit(idx)} className="p-2 bg-yellow-500/10 text-yellow-500 rounded-lg hover:bg-yellow-500 hover:text-white transition-all">
                             <FiEdit size={18} />
                           </button>
@@ -146,26 +146,26 @@ const Suppliers = () => {
           </div>
         </div>
 
-        {/* ================= MODAL ================= */}
+        {/* ================= MODAL SECTION (Products Style) ================= */}
         {isModalOpen && (
-          <div className="fixed inset-0 bg-[#1a2223]/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#1a2223]/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-[#1a2223] border border-white/10 w-full max-w-md p-8 rounded-2xl shadow-2xl">
               <h2 className="text-2xl font-bold mb-6 text-emerald-400">
-                {editingIndex !== null ? "Edit Supplier" : "Add New Supplier"}
+                {editingIndex !== null ? "Update Supplier" : "Create New Supplier"}
               </h2>
 
               <div className="space-y-4">
-                <input name="name" placeholder="Full Name" value={formData.name} onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" />
+                <input name="name" placeholder="Supplier Name" value={formData.name} onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none text-white transition-all" />
                 
                 <input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" />
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none text-white transition-all" />
 
                 <input name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" />
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none text-white transition-all" />
 
                 <textarea name="address" placeholder="Physical Address" value={formData.address} onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none transition-all" rows={3}></textarea>
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:border-emerald-500 outline-none text-white transition-all" rows={3}></textarea>
               </div>
 
               <div className="flex justify-end gap-3 mt-8">

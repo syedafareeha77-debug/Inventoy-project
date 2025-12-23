@@ -28,7 +28,7 @@ const Sidebar = () => {
     <aside
       className="w-72 min-h-screen text-white flex flex-col p-6 shadow-2xl"
       style={{ 
-        backgroundColor: "#1a2223", 
+        backgroundColor: "#031612ff", 
         fontFamily: "'Plus Jakarta Sans', sans-serif" 
       }}
     >

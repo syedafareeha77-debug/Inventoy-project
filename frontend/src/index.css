@@ -11,7 +11,7 @@ body, html, #root {
   width: 100%;
   
   /* Aapka bataya hua Radial Gradient */
-  background: radial-gradient(circle at 80% 20%, #2f6d55ff 0%, #2a5252ff 40%, #182353ff 100%) !important;
+  background: radial-gradient(circle at 80% 20%, rgb(12, 41, 30) 0%, rgb(5, 63, 63) 40%, rgb(2, 11, 44) 100%) !important;
   
   /* Is se background fixed rahega aur content scroll hoga */
   background-attachment: fixed;
