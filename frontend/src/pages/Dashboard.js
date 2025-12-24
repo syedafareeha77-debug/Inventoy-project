@@ -8,6 +8,7 @@ import {
   FaLaptop,
   FaHeadphones,
 } from "react-icons/fa";
+
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -55,8 +56,8 @@ const Dashboard = () => {
       {
         label: "Sales",
         data: [12, 19, 8, 17, 14, 22],
-        borderColor: "#10b981", // Emerald 500
-        backgroundColor: "rgba(16, 185, 129, 0.2)",
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16, 185, 129, 0.25)",
         tension: 0.4,
         fill: true,
         pointBackgroundColor: "#10b981",
@@ -73,7 +74,7 @@ const Dashboard = () => {
         display: true,
         text: "Monthly Sales Trend",
         color: "#ffffff",
-        font: { size: 16, family: "'Plus Jakarta Sans'" },
+        font: { size: 16 },
       },
     },
     scales: {
@@ -83,28 +84,37 @@ const Dashboard = () => {
       },
       y: {
         ticks: { color: "#9ca3af" },
-        grid: { color: "rgba(255, 255, 255, 0.1)" },
+        grid: { color: "rgba(255,255,255,0.1)" },
         beginAtZero: true,
       },
     },
   };
 
   return (
-    <div className="flex min-h-screen font-['Plus_Jakarta_Sans']">
-      {/* Sidebar - Already contains its own background */}
+    <div
+      className="flex min-h-screen font-['Plus_Jakarta_Sans']"
+      style={{
+        background:
+          "linear-gradient(circle at 80% 20%, rgba(4, 58, 37, 1) 20%, rgba(6, 43, 43, 1) 50%, rgb(2, 11, 44) 100%)",
+      }}
+    >
+      {/* Sidebar */}
       <Sidebar />
 
-      <main className="flex-1 p-8 text-white overflow-y-auto">
+      {/* Main */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 text-white overflow-y-auto pt-20 md:pt-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
-          <p className="text-emerald-400/80 text-lg">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            Dashboard Overview
+          </h1>
+          <p className="text-emerald-400/80 text-base sm:text-lg">
             Welcome back! Here is what's happening today.
           </p>
         </div>
 
-        {/* Top Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* ================= COMPACT TOP CARDS ================= */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-6 sm:mb-8">
           {[
             { title: "Total Products", value: "150", icon: <FaBoxOpen />, color: "text-blue-400" },
             { title: "Total Stock", value: "320", icon: <FaLayerGroup />, color: "text-emerald-400" },
@@ -113,81 +123,99 @@ const Dashboard = () => {
           ].map((card, i) => (
             <div
               key={i}
-              className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 shadow-xl"
+              className="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/10 transition shadow-xl"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div className={`p-3 rounded-xl bg-white/5 ${card.color} text-2xl`}>
+              <div className="flex justify-between items-start mb-2">
+                <div className={`p-2 rounded-lg bg-white/5 ${card.color} text-xl`}>
                   {card.icon}
                 </div>
-                <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">
+                <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">
                   +12.5%
                 </span>
               </div>
-              <div>
-                <p className="text-gray-400 font-medium">{card.title}</p>
-                <p className="text-3xl font-bold mt-1">{card.value}</p>
-              </div>
+
+              <p className="text-gray-400 text-sm leading-tight">
+                {card.title}
+              </p>
+              <p className="text-2xl font-bold leading-snug">
+                {card.value}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Middle Section: Chart & Low Stock */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Sales Chart */}
-          <div className="lg:col-span-2 p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 h-96 shadow-xl">
+        {/* ================= CHART + LOW STOCK ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="lg:col-span-2 p-4 sm:p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 h-[300px] sm:h-[380px] lg:h-96 shadow-xl">
             <Line data={salesData} options={salesOptions} />
           </div>
 
-          {/* Low Stock Items */}
-          <div className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 h-96 flex flex-col shadow-xl">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+          <div className="p-4 sm:p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 h-[300px] sm:h-[380px] lg:h-96 flex flex-col shadow-xl">
+            <h3 className="text-lg sm:text-xl font-bold mb-4 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-red-500"></span>
               Low Stock Items
             </h3>
 
-            <div className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
-              {lowStockItems.map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                  <span className="text-gray-200 font-medium">{item.name}</span>
-                  <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-400 font-bold text-sm">
+            <div className="flex-1 overflow-y-auto space-y-3 no-scrollbar">
+              {lowStockItems.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center p-3 rounded-lg bg-white/5"
+                >
+                  <span className="text-sm sm:text-base">{item.name}</span>
+                  <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs sm:text-sm font-bold">
                     {item.quantity} left
                   </span>
                 </div>
               ))}
             </div>
 
-            <button className="mt-6 w-full py-3 rounded-xl bg-emerald-500 text-[#1a2223] font-bold hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20">
+            <button className="mt-4 w-full py-3 rounded-xl bg-emerald-500 text-[#022c22] font-bold hover:bg-emerald-400 transition">
               Restock All
             </button>
           </div>
         </div>
 
-        {/* Bottom Section: Tables */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Sales */}
-          <div className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
-            <h3 className="text-xl font-bold mb-4 text-emerald-400">Recent Sales</h3>
+        {/* ================= BOTTOM TABLES ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="p-4 sm:p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
+            <h3 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">
+              Recent Sales
+            </h3>
             <div className="space-y-3">
-              {recentSales.map((sale, index) => (
-                <div key={index} className="flex justify-between items-center p-3 rounded-lg border-b border-white/5 hover:bg-white/5 transition">
-                  <span className="text-gray-300">{sale.product}</span>
-                  <span className="font-bold text-emerald-400">{sale.price}</span>
+              {recentSales.map((sale, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center p-3 rounded-lg hover:bg-white/5 transition"
+                >
+                  <span className="text-sm sm:text-base text-gray-300">
+                    {sale.product}
+                  </span>
+                  <span className="font-bold text-emerald-400">
+                    {sale.price}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Top Selling */}
-          <div className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
-            <h3 className="text-xl font-bold mb-4 text-blue-400">Top Selling Products</h3>
+          <div className="p-4 sm:p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
+            <h3 className="text-lg sm:text-xl font-bold mb-4 text-blue-400">
+              Top Selling Products
+            </h3>
             <div className="space-y-3">
-              {topSellingProducts.map((product, index) => (
-                <div key={index} className="flex justify-between items-center p-3 rounded-lg border-b border-white/5 hover:bg-white/5 transition">
-                  <div className="flex items-center gap-3 text-gray-300">
-                    <span className="text-blue-400 bg-blue-400/10 p-2 rounded-lg">{product.icon}</span>
-                    <span className="font-medium">{product.name}</span>
+              {topSellingProducts.map((product, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center p-3 rounded-lg hover:bg-white/5 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-blue-400 bg-blue-400/10 p-2 rounded-lg">
+                      {product.icon}
+                    </span>
+                    <span className="text-sm sm:text-base">{product.name}</span>
                   </div>
-                  <span className="font-bold text-white">{product.price}</span>
+                  <span className="font-bold">{product.price}</span>
                 </div>
               ))}
             </div>

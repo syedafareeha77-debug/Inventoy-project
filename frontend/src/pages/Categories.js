@@ -52,24 +52,34 @@ const Categories = () => {
   );
 
   return (
-    <div className="flex min-h-screen text-white font-['Plus_Jakarta_Sans']">
+    <div
+      className="flex min-h-screen text-white font-['Plus_Jakarta_Sans']"
+      style={{
+        background:
+          "radial-gradient(circle at 80% 20%, rgba(4, 58, 37, 1) 20%, rgba(6, 43, 43, 1) 50%, rgb(2, 11, 44) 100%)",
+      }}
+    >
       <Sidebar />
-      <main className="flex-1 p-8 overflow-y-auto">
-        
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto pt-20 md:pt-8">
+
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Categories</h1>
-          <p className="text-emerald-400/80">Organize your products into manageable categories.</p>
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+            Categories
+          </h1>
+          <p className="text-emerald-400/80 text-sm sm:text-base">
+            Organize your products into manageable categories.
+          </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+
           {/* Left Side: Form Card */}
-          <div className="w-full lg:w-1/3 bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl h-fit">
-            <h2 className="text-xl font-bold mb-6 text-emerald-400">
+          <div className="w-full lg:w-1/3 bg-white/5 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/10 shadow-xl h-fit">
+            <h2 className="text-xl font-bold mb-4 sm:mb-6 text-emerald-400">
               {editingIndex !== null ? "Edit Category" : "Add New Category"}
             </h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-400 mb-1">Category Name</label>
@@ -102,10 +112,10 @@ const Categories = () => {
                 <FiPlus size={20} />
                 {editingIndex !== null ? "Update Category" : "Add Category"}
               </button>
-              
+
               {editingIndex !== null && (
-                <button 
-                  onClick={() => {setEditingIndex(null); setNewCategory({name:"", description:""})}}
+                <button
+                  onClick={() => { setEditingIndex(null); setNewCategory({ name: "", description: "" }) }}
                   className="w-full text-gray-400 hover:text-white text-sm"
                 >
                   Cancel Edit
@@ -115,8 +125,10 @@ const Categories = () => {
           </div>
 
           {/* Right Side: Search & Table Card */}
-          <div className="w-full lg:w-2/3 bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl">
-            <div className="relative mb-6">
+          <div className="w-full lg:w-2/3 bg-white/5 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/10 shadow-xl overflow-hidden">
+
+            {/* Search */}
+            <div className="relative mb-4 sm:mb-6">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
               <input
                 type="text"
@@ -127,28 +139,29 @@ const Categories = () => {
               />
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left">
-                <thead className="bg-white/10 text-white-400 uppercase text-sm tracking-wider">
+            {/* Table */}
+            <div className="overflow-x-hidden">
+              <table className="w-full text-left text-sm sm:text-base">
+                <thead className="bg-white/10 text-white/400 uppercase tracking-wider">
                   <tr>
-                    <th className="px-6 py-4 font-bold">ID</th>
-                    <th className="px-6 py-4 font-bold">Name</th>
-                    <th className="px-6 py-4 font-bold text-center">Actions</th>
+                    <th className="px-4 sm:px-6 py-3 font-bold">ID</th>
+                    <th className="px-4 sm:px-6 py-3 font-bold">Name</th>
+                    <th className="px-4 sm:px-6 py-3 font-bold text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredCategories.length === 0 ? (
                     <tr>
-                      <td colSpan={3} className="text-center py-10 text-gray-500 italic">
+                      <td colSpan={3} className="text-center py-6 text-gray-500 italic">
                         No categories found.
                       </td>
                     </tr>
                   ) : (
                     filteredCategories.map((cat, idx) => (
-                      <tr key={idx} className="hover:bg-white/5 transition-colors group">
-                        <td className="px-6 py-4 text-gray-400">#{idx + 1}</td>
-                        <td className="px-6 py-4 font-semibold">{cat.name}</td>
-                        <td className="px-6 py-4">
+                      <tr key={idx} className="hover:bg-white/5 transition-colors">
+                        <td className="px-4 sm:px-6 py-3 text-gray-400">#{idx + 1}</td>
+                        <td className="px-4 sm:px-6 py-3 font-semibold">{cat.name}</td>
+                        <td className="px-4 sm:px-6 py-3">
                           <div className="flex justify-center gap-3">
                             <button
                               onClick={() => handleEdit(idx)}
@@ -170,8 +183,8 @@ const Categories = () => {
                 </tbody>
               </table>
             </div>
-          </div>
 
+          </div>
         </div>
       </main>
     </div>

@@ -45,7 +45,7 @@ const Reports = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false }, // Custom legend used instead
+      legend: { display: false },
       tooltip: {
         backgroundColor: "#1a2223",
         titleColor: "#10b981",
@@ -92,15 +92,15 @@ const Reports = () => {
           <p className="text-emerald-400/80">Monitor your performance and financial growth.</p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Compact Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, i) => (
-            <div key={i} className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl shadow-xl">
-              <div className={`w-12 h-12 ${stat.bg} ${stat.color} rounded-xl flex items-center justify-center mb-4 text-2xl`}>
+            <div key={i} className="bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl">
+              <div className={`w-10 h-10 ${stat.bg} ${stat.color} rounded-xl flex items-center justify-center mb-2 text-xl`}>
                 {stat.icon}
               </div>
-              <p className="text-sm text-gray-400 font-medium uppercase tracking-wider">{stat.title}</p>
-              <h2 className="text-2xl font-black mt-1">{stat.value}</h2>
+              <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">{stat.title}</p>
+              <h2 className="text-xl font-black mt-1">{stat.value}</h2>
             </div>
           ))}
         </div>

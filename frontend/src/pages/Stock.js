@@ -59,82 +59,76 @@ const Stock = () => {
           </div>
         </div>
 
-        {/* TABLE (PRODUCTS STYLE) */}
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-left">
-              <thead className="bg-white/10 text-white uppercase text-sm tracking-wider">
-                <tr>
-                  <th className="px-6 py-4 font-bold">ID</th>
-                  <th className="px-6 py-4 font-bold">Product Name</th>
-                  <th className="px-6 py-4 font-bold">Category</th>
-                  <th className="px-6 py-4 font-bold">Supplier</th>
-                  <th className="px-6 py-4 font-bold text-center">Stock</th>
-                  <th className="px-6 py-4 font-bold text-center">Status</th>
-                </tr>
-              </thead>
+        {/* TABLE (Responsive for Mobile) */}
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-x-auto shadow-2xl">
+          <table className="min-w-full text-left table-auto md:table-fixed">
+            <thead className="bg-white/10 text-white uppercase text-sm tracking-wider">
+              <tr>
+                <th className="px-6 py-4 font-bold">ID</th>
+                <th className="px-6 py-4 font-bold">Product Name</th>
+                <th className="px-6 py-4 font-bold">Category</th>
+                <th className="px-6 py-4 font-bold">Supplier</th>
+                <th className="px-6 py-4 font-bold text-center">Stock</th>
+                <th className="px-6 py-4 font-bold text-center">Status</th>
+              </tr>
+            </thead>
 
-              <tbody className="divide-y divide-white/5">
-                {filteredStock.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="text-center py-12 text-gray-400 italic"
-                    >
-                      No stock data found.
+            <tbody className="divide-y divide-white/5">
+              {filteredStock.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="text-center py-12 text-gray-400 italic"
+                  >
+                    No stock data found.
+                  </td>
+                </tr>
+              ) : (
+                filteredStock.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="hover:bg-white/5 transition-colors"
+                  >
+                    <td className="px-6 py-4 text-gray-400">{item.id}</td>
+
+                    <td className="px-6 py-4 font-semibold text-white">
+                      {item.name}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                        {item.category}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 text-white/80">{item.supplier}</td>
+
+                    <td className="px-6 py-4 text-center">
+                      <span
+                        className={`font-bold ${
+                          item.stock < 5 ? "text-red-400" : "text-white"
+                        }`}
+                      >
+                        {item.stock}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 text-center">
+                      {item.stock < 5 ? (
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold">
+                          <FiAlertTriangle /> LOW
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-bold">
+                          <FiCheckCircle /> OK
+                        </span>
+                      )}
                     </td>
                   </tr>
-                ) : (
-                  filteredStock.map((item) => (
-                    <tr
-                      key={item.id}
-                      className="hover:bg-white/5 transition-colors"
-                    >
-                      <td className="px-6 py-4 text-gray-400">
-                        {item.id}
-                      </td>
-
-                      <td className="px-6 py-4 font-semibold text-white">
-                        {item.name}
-                      </td>
-
-                      <td className="px-6 py-4">
-                        <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-bold uppercase">
-                          {item.category}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-4 text-white/80">
-                        {item.supplier}
-                      </td>
-
-                      <td className="px-6 py-4 text-center">
-                        <span
-                          className={`font-bold ${
-                            item.stock < 5 ? "text-red-400" : "text-white"
-                          }`}
-                        >
-                          {item.stock}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-4 text-center">
-                        {item.stock < 5 ? (
-                          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold">
-                            <FiAlertTriangle /> LOW
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-bold">
-                            <FiCheckCircle /> OK
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </main>
     </div>

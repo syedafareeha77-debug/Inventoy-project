@@ -90,9 +90,7 @@ const Sales = () => {
         {/* HEADER */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 text-white">Sales Records</h1>
-          <p className="text-white/70">
-            Track all sales and revenue transactions.
-          </p>
+          <p className="text-emerald-400/80">Track all sales and revenue transactions.</p>
         </div>
 
         {/* SEARCH + BUTTON */}
@@ -116,82 +114,74 @@ const Sales = () => {
           </button>
         </div>
 
-        {/* TABLE (PRODUCTS STYLE) */}
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-left">
-              <thead className="bg-white/10 text-white uppercase text-sm tracking-wider">
-                <tr>
-                  <th className="px-6 py-4 font-bold">Date</th>
-                  <th className="px-6 py-4 font-bold">Product</th>
-                  <th className="px-6 py-4 font-bold">Customer</th>
-                  <th className="px-6 py-4 font-bold text-center">Qty</th>
-                  <th className="px-6 py-4 font-bold">Total</th>
-                  <th className="px-6 py-4 font-bold text-center">Actions</th>
-                </tr>
-              </thead>
+        {/* TABLE (Responsive for Mobile) */}
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-x-auto shadow-2xl">
+          <table className="min-w-full text-left table-auto md:table-fixed">
+            <thead className="bg-white/10 text-white uppercase text-sm tracking-wider">
+              <tr>
+                <th className="px-6 py-4 font-bold">Date</th>
+                <th className="px-6 py-4 font-bold">Product</th>
+                <th className="px-6 py-4 font-bold">Customer</th>
+                <th className="px-6 py-4 font-bold text-center">Qty</th>
+                <th className="px-6 py-4 font-bold">Total</th>
+                <th className="px-6 py-4 font-bold text-center">Actions</th>
+              </tr>
+            </thead>
 
-              <tbody className="divide-y divide-white/5">
-                {filteredSales.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="text-center py-12 text-gray-400 italic"
-                    >
-                      No sales records found.
+            <tbody className="divide-y divide-white/5">
+              {filteredSales.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-12 text-gray-400 italic">
+                    No sales records found.
+                  </td>
+                </tr>
+              ) : (
+                filteredSales.map((sale, idx) => (
+                  <tr key={idx} className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4 text-gray-400 font-mono">
+                      <FiCalendar className="inline mr-2" />
+                      {sale.date}
+                    </td>
+
+                    <td className="px-6 py-4 font-semibold text-white">
+                      <FiShoppingCart className="inline mr-2 text-blue-400" />
+                      {sale.product}
+                    </td>
+
+                    <td className="px-6 py-4 text-white/80">
+                      <FiUser className="inline mr-2 text-gray-400" />
+                      {sale.customer}
+                    </td>
+
+                    <td className="px-6 py-4 text-center font-bold text-white">
+                      {sale.quantity}
+                    </td>
+
+                    <td className="px-6 py-4 font-bold text-white">
+                      ${sale.total}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <div className="flex justify-center gap-2">
+                        <button
+                          onClick={() => handleEdit(idx)}
+                          className="p-2 bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-all"
+                        >
+                          <FiEdit size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(idx)}
+                          className="p-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+                        >
+                          <FiTrash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
-                ) : (
-                  filteredSales.map((sale, idx) => (
-                    <tr
-                      key={idx}
-                      className="hover:bg-white/5 transition-colors"
-                    >
-                      <td className="px-6 py-4 text-gray-400 font-mono">
-                        <FiCalendar className="inline mr-2" />
-                        {sale.date}
-                      </td>
-
-                      <td className="px-6 py-4 font-semibold text-white">
-                        <FiShoppingCart className="inline mr-2 text-blue-400" />
-                        {sale.product}
-                      </td>
-
-                      <td className="px-6 py-4 text-white/80">
-                        <FiUser className="inline mr-2 text-gray-400" />
-                        {sale.customer}
-                      </td>
-
-                      <td className="px-6 py-4 text-center font-bold text-white">
-                        {sale.quantity}
-                      </td>
-
-                      <td className="px-6 py-4 font-bold text-white">
-                        ${sale.total}
-                      </td>
-
-                      <td className="px-6 py-4">
-                        <div className="flex justify-center gap-2">
-                          <button
-                            onClick={() => handleEdit(idx)}
-                            className="p-2 bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-all"
-                          >
-                            <FiEdit size={18} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(idx)}
-                            className="p-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-all"
-                          >
-                            <FiTrash2 size={18} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* MODAL */}
