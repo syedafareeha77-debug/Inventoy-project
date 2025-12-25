@@ -223,8 +223,8 @@ const Sales = () => {
                   />
                 </div>
 
-                <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl flex justify-between">
-                  <span className="uppercase text-xs tracking-widest text-purple-400 font-bold">
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex justify-between">
+                  <span className="uppercase text-xs tracking-widest text-emerald-400 font-bold">
                     Total
                   </span>
                   <span className="text-xl font-black text-white">
@@ -253,7 +253,7 @@ const Sales = () => {
                 </button>
                 <button
                   onClick={handleAddOrUpdate}
-                  className="px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-500 transition-all"
+                  className="px-6 py-3 bg-emerald-500 text-[#1a2324] font-bold rounded-xl hover:bg-emerald-400 transition-all"
                 >
                   {editingIndex !== null ? "Save Changes" : "Confirm Sale"}
                 </button>
